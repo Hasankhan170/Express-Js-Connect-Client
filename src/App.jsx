@@ -46,12 +46,35 @@ const App = () => {
 
 //delete Todo
    const deleteTodo = async (_id)=>{
-    console.log(_id);
+   try {
     const response = await axios.delete(`http://localhost:3000/api/v1/todo/${_id}`);
     setArr(response.data.todos)
+    console.log(_id);
     getData()
+   } catch (error) {
+    console.log(error);
     
    }
+    
+   }
+
+//edit todo
+const EditTodo = async(_id,title,description)=>{
+  try {
+  console.log(_id,title,description);
+  const updateTitle = prompt('Edit title')
+  const updateDescription = prompt('Edit description')
+  const response = await axios.put(`http://localhost:3000/api/v1/todo/${_id}`,{
+    title : updateTitle,
+    description : updateDescription
+  })
+  setArr(response.data.todos)
+  getData()
+  } catch (error) {
+    console.log(error);
+    
+  }
+}   
   
   return (
     <>
@@ -67,6 +90,7 @@ const App = () => {
           <h2>{item.title}</h2>
           <p>{item.description}</p>
           <button onClick={()=>deleteTodo(item._id)}>Delete</button>
+          <button onClick={()=>EditTodo(item._id,item.title,item.description)}>Edit</button>
           <hr/>
         </div>
       }):<h1>item not found</h1>
