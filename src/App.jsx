@@ -7,8 +7,7 @@ const App = () => {
   const titVal = useRef()
   const desVal = useRef()
 
-//get data
- 
+//get todos
     const getData = async ()=>{
       try {
       const response = await fetch("http://localhost:3000/api/v1/todos")
@@ -23,8 +22,7 @@ const App = () => {
       getData()
     },[])
 
-//post data  
-  
+//post todo  
     const postData = async (event)=>{
       event.preventDefault()
       try {
@@ -35,7 +33,7 @@ const App = () => {
       })
       setArr(response.todos)
       console.log(response.data);
-      
+
       titVal.current.value = ""
       desVal.current.value = ""
       getData()
@@ -45,6 +43,15 @@ const App = () => {
       }
       
     }
+
+//delete Todo
+   const deleteTodo = async (_id)=>{
+    console.log(_id);
+    const response = await axios.delete(`http://localhost:3000/api/v1/todo/${_id}`);
+    setArr(response.data.todos)
+    getData()
+    
+   }
   
   return (
     <>
@@ -59,6 +66,7 @@ const App = () => {
         return <div key={item._id}>
           <h2>{item.title}</h2>
           <p>{item.description}</p>
+          <button onClick={()=>deleteTodo(item._id)}>Delete</button>
           <hr/>
         </div>
       }):<h1>item not found</h1>
