@@ -19,9 +19,9 @@ const App = () => {
         console.log(error); 
       }
     }
-    getData()
-
-
+    useEffect(()=>{
+      getData()
+    },[])
 
 //post data  
   
@@ -35,6 +35,9 @@ const App = () => {
       })
       setArr(response.todos)
       console.log(response.data);
+      
+      titVal.current.value = ""
+      desVal.current.value = ""
       getData()
       } catch (error) {
         console.log(error);
